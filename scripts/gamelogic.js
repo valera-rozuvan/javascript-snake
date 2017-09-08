@@ -1,38 +1,81 @@
-define(["gamelogic"], function() {
-var Game = Game || {};
-Game.settings = {
-	dotSize: 10, // size of square in px
-	boardWidth: 40,
-	boardHeight: 30,
-	initialSpeed: 1,
-	initialLength: 5, //length of the snake in squares
-}
+define(["field", "snake"], function(Field, Snake) {
 
-Game.field = Game.field || {};
+	var Game = function(settings) {
 
-Game.snake = Game.snake || {};
+		this.field = new Field(settings);
 
-Game.run = function() {
-	this.setField();
-	this.field.randomFood();
-	//console.log(this);
-}
+		this.snake = new Snake(settings);
 
-Game.setField = function() {
-this.field.height = this.settings.boardHeight;
-this.field.width = this.settings.boardWidth;
+		this.settings = settings;
+	};
 
-this.field.body = [];
-this.field.body.length = this.field.width * this.field.height;
-this.field.body.fill(0);
-}
+	Game.prototype.putSnake = function() {
 
-Game.field.randomFood= function(){
-	var idx = Math.floor(Math.random() * (this.body.length-1));
-	this.body[idx] = 1;
-}
+		function convert(x, y) {
+			idx = (y - 1) * this.field.width + x;
+			return idx;
+		};
 
-//Game.run();
+		var x = this.snake.head.x;
+		var y = this.snake.head.y;
 
-return {Game: Game};
+		this.field.body[convert.call(this, x, y)] = 1;
+
+		for (var i = 0; i < this.snake.body.length; i++) {
+			x = this.snake.body[i].x;
+			y = this.snake.body[i].y;
+			this.field.body[convert.call(this, x, y)] = 1;
+		}
+	};
+
+	Game.prototype.firstRun = function() {
+		this.setField();
+		this.field.randomFood();
+		this.snake.build();
+		this.field.getSnake();
+		//console.log(Game.snake);
+	};
+
+	Game.prototype.nextRun = function() {
+		this.snake.move(this.snake.direction);
+		this.snake.build();
+		this.field.getSnake();
+	};
+
+	function keyboard(game) {
+		document.onkeydown = function(event) {
+			switch (event.key) {
+				case "ArrowUp":
+					event.preventDefault();
+					game.snake.move("up");
+					game.snake.direction = "up";
+					return;
+				case "ArrowDown":
+					event.preventDefault();
+					game.snake.move("down");
+					game.snake.direction = "down";
+					return;
+				case "ArrowRight":
+					event.preventDefault();
+					game.snake.move("right");
+					game.snake.direction = "right";
+					return;
+				case "ArrowLeft":
+					event.preventDefault();
+					game.snake.move("left");
+					game.snake.direction = "left";
+					return;
+			};
+		};
+	};
+
+	Game.prototype.randomFood = function() {
+		var idx = Math.floor(Math.random() * (this.field.body.length - 1));
+		this.field.body[idx] = 1;
+	};
+
+	return {
+		Game: Game,
+		keyboard: keyboard,
+	}
 });
