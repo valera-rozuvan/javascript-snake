@@ -10,6 +10,8 @@ define([], function() {
 			var ctx = main.getContext("2d");
 			ctx.canvas.width = width * dotSize;
 			ctx.canvas.height = height * dotSize;
+			ctx.fillStyle = "white";
+			ctx.fillRect(0, 0, width * dotSize, height * dotSize);
 			drawGrid(ctx);
 			drawField(ctx);
 		}

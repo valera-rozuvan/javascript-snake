@@ -20,26 +20,28 @@ require(["gamelogic", "drawing"], function(gamelogic, drawing) {
 
 	var game = new gamelogic.Game(settings);
 
+	game.keypressed = false;
 	gamelogic.keyboard(game);
 
 	game.randomFood();
-	game.snake.build();
-	game.putSnake();
-
-	drawing(game.field);
 
 	var steps = 0;
 	var timerID = setInterval(function() {
-		game.snake.move(game.snake.direction);
-		game.snake.build();
+		if (!game.keypressed) {
+			game.snake.move(game.snake.direction);
+		} else {
+			game.keypressed = false;
+		};
+
 		game.putSnake();
 		drawing(game.field);
+		game.keypressed = false;
 		steps++;
-		if (steps > 20) {
+		if (steps > 200) {
 			clearInterval(timerID)
 		};
 
-	}, 500);
+	}, 200);
 
 
 });

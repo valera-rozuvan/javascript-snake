@@ -4,32 +4,11 @@ define([], function() {
 		this.settings = settings;
 		this.body = [];
 		this.head = {
-			x: settings.initialLength,
+			x: 1,
 			y: 2,
 		};
 		this.length = settings.initialLength;
 		this.direction = "right";
-	};
-
-	Snake.prototype.piece = function(x, y) {
-		this.x = x;
-		this.y = y;
-	};
-
-	Snake.prototype.build = function() {
-		var y = this.head.y;
-		if (this.body.length < this.length - 1) {
-			var x;
-			if (this.body.length === 0) {
-				x = this.head.x - 1;
-			} else {
-				x = this.body[this.body.length - 1].x - 1;
-			}
-			this.body.push(new this.piece(x, y));
-			this.build();
-		} else {
-			return;
-		}
 	};
 
 	Snake.prototype.move = function(direction) {
@@ -40,6 +19,10 @@ define([], function() {
 				} else {
 					this.head.x += 1;
 				}
+				this.body.push({
+					x: this.head.x,
+					y: this.head.y,
+				});
 				return;
 			case "left":
 				if (this.head.x === 1) {
@@ -47,6 +30,10 @@ define([], function() {
 				} else {
 					this.head.x -= 1;
 				}
+				this.body.push({
+					x: this.head.x,
+					y: this.head.y,
+				});
 				return;
 			case "up":
 				if (this.head.y === 1) {
@@ -54,6 +41,10 @@ define([], function() {
 				} else {
 					this.head.y -= 1;
 				}
+				this.body.push({
+					x: this.head.x,
+					y: this.head.y,
+				});
 				return;
 			case "down":
 				if (this.head.y === this.settings.boardHeight) {
@@ -61,8 +52,12 @@ define([], function() {
 				} else {
 					this.head.y += 1;
 				}
+				this.body.push({
+					x: this.head.x,
+					y: this.head.y,
+				});
 				return;
-		}
+		};
 	};
 
 	return Snake;
