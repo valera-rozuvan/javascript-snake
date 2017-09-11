@@ -1,6 +1,6 @@
 define([], function() {
 
-	function draw(field) {
+	function draw(field, score) {
 		var main = document.getElementById("main-snake");
 		var width = field.width;
 		var height = field.height;
@@ -12,9 +12,26 @@ define([], function() {
 			ctx.canvas.height = height * dotSize;
 			ctx.fillStyle = "white";
 			ctx.fillRect(0, 0, width * dotSize, height * dotSize);
-			drawGrid(ctx);
+			//drawGrid(ctx);
 			drawField(ctx);
+			if (score === -1) {
+				drawPressSpace(ctx);
+			} else {
+				drawScore(ctx);
+			}
 		}
+
+		function drawPressSpace(ctx) {
+			ctx.font = "12px Georgia bold";
+			ctx.fillStyle = "red";
+			ctx.fillText("Press Space", 2, 12);
+		}
+
+		function drawScore(ctx) {
+			ctx.font = "12px Georgia bold";
+			ctx.fillStyle = "red";
+			ctx.fillText("Score: " + score, 2, 12);
+		};
 
 		function drawGrid(ctx) {
 			ctx.strokeStyle = "rgba(0, 0, 0, 0.5)";

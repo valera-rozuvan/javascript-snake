@@ -1,5 +1,4 @@
 define([], function() {
-
 	var Snake = function(settings) {
 		this.settings = settings;
 		this.body = [];
@@ -9,6 +8,7 @@ define([], function() {
 		};
 		this.length = settings.initialLength;
 		this.direction = "right";
+		this.speed = 200; //snake speed in ms between steps
 	};
 
 	Snake.prototype.move = function(direction) {
@@ -18,7 +18,7 @@ define([], function() {
 					this.head.x = 1;
 				} else {
 					this.head.x += 1;
-				}
+				};
 				this.body.push({
 					x: this.head.x,
 					y: this.head.y,
