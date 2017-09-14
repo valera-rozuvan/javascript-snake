@@ -45,7 +45,7 @@ define(["gamelogic", "drawing"], function (gamelogic, drawing) {
                     };
                 };
             }, game.snake.speed);
-        };
+        }
     };
 
     return Init;

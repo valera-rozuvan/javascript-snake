@@ -6,6 +6,11 @@ Snake Game using JavaScript
 Please visit
 https://valera-rozuvan.github.io/javascript-snake/src/index.html .
 
+## Run unit tests
+
+Please visit
+https://valera-rozuvan.github.io/javascript-snake/test/spec_runner.html
+
 ## Original sources
 
 This project is a fork of https://github.com/bogdan-karlenko/javascript-snake .
